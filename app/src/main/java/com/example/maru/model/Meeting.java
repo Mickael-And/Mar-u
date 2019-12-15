@@ -27,6 +27,13 @@ public class Meeting {
     private UUID id;
 
     /**
+     * Couleur de la réunion.
+     */
+    @Getter
+    @Setter
+    private Integer color;
+
+    /**
      * Heure de départ la réunion.
      */
     @Getter

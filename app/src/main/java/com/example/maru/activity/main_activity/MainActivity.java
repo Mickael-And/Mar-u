@@ -1,4 +1,4 @@
-package com.example.maru.activity;
+package com.example.maru.activity.main_activity;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,21 +14,24 @@ import com.google.android.material.snackbar.Snackbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Activité de démarrage.
+ */
 public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
     @BindView(R.id.fab)
     FloatingActionButton fab;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
         setSupportActionBar(this.toolbar);
+
         fab.setOnClickListener(v -> Snackbar.make(v, "Add a meeting", Snackbar.LENGTH_LONG).setAction("Action", null).show());
     }
 

@@ -1,6 +1,7 @@
 package com.example.maru.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,7 +25,7 @@ public class Meeting {
      * Identifiant de la réunion.
      */
     @Getter
-    private UUID id;
+    private UUID id = UUID.randomUUID();
 
     /**
      * Couleur de la réunion.
@@ -34,18 +35,11 @@ public class Meeting {
     private Integer color;
 
     /**
-     * Heure de départ la réunion.
+     * Date et heure de la réunion.
      */
     @Getter
     @Setter
-    private Integer hour;
-
-    /**
-     * Minute de départ de la réunion.
-     */
-    @Getter
-    @Setter
-    private Integer minute;
+    private Calendar dateTime;
 
     /**
      * Lieu de la réunion.

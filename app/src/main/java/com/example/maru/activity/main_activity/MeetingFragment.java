@@ -15,6 +15,7 @@ import com.example.maru.DI.DI;
 import com.example.maru.R;
 import com.example.maru.Service.IMeetingService;
 import com.example.maru.adapter.MeetingsListAdapter;
+import com.example.maru.event.AddMeetingEvent;
 import com.example.maru.event.DeleteMeetingEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -105,4 +106,17 @@ public class MeetingFragment extends Fragment {
         this.meetingsListAdapter.updateList(this.meetingService.getMeetings());
         this.checkIfRecyclerViewIsEmpty();
     }
+
+    /**
+     * Déclenché lors de la réception d'un objet de type {@link com.example.maru.event.DeleteMeetingEvent}.
+     *
+     * @param deleteMeetingEvent évenement de suppression d'une réunion.
+     */
+    @Subscribe
+    public void onAddMeeting(AddMeetingEvent deleteMeetingEvent) {
+        this.meetingService.addMeeting(deleteMeetingEvent.meeting);
+        this.meetingsListAdapter.updateList(this.meetingService.getMeetings());
+        this.checkIfRecyclerViewIsEmpty();
+    }
+
 }

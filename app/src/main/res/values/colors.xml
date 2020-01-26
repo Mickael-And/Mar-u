@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#4E92DF</color>
-    <color name="colorPrimaryDark">#3F7ABD</color>
-    <color name="colorAccent">#CE0A24</color>
+    <color name="colorPrimaryVariant">#0065AD</color>
+    <color name="colorSecondary">#CE0A24</color>
+    <color name="colorSecondaryVariant">#950000</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorError">#B00020</color>
+
+    <color name="color_meeting_1">#80FF5252</color>
+    <color name="color_meeting_2">#80E040FB</color>
+    <color name="color_meeting_3">#80536DFE</color>
+    <color name="color_meeting_4">#8040C4FF</color>
+    <color name="color_meeting_5">#8069F0AE</color>
+    <color name="color_meeting_6">#80B2FF59</color>
+    <color name="color_meeting_7">#80FFFF00</color>
+    <color name="color_meeting_8">#80FFAB40</color>
+    <color name="color_meeting_9">#80FF6E40</color>
+    <color name="color_meeting_10">#80FF4081</color>
+    <color name="textview_stroke">#BF787878</color>
 </resources>

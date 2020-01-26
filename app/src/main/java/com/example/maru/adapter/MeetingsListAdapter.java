@@ -19,6 +19,7 @@ import com.example.maru.model.Meeting;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -56,11 +57,13 @@ public class MeetingsListAdapter extends RecyclerView.Adapter<MeetingsListAdapte
         Meeting meeting = this.meetings.get(position);
         // Affichage de la couleur de la réunion
         Glide.with(holder.imgColor.getContext())
-                .load(new ColorDrawable(meeting.getColor()))
+                .load(new ColorDrawable(holder.imgColor.getContext().getResources().getColor(meeting.getColor())))
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.imgColor);
         // Affichage du lieu, l'heure et le sujet
-        holder.tvDetails.setText(String.format(Locale.getDefault(), "%s - %dh%d - %s", meeting.getPlace(), meeting.getHour(), meeting.getMinute(), meeting.getTopic()));
+        String details = String.format(Locale.getDefault(), "%02d/%02d/%d %02dh%02d", meeting.getDateTime().get(Calendar.DAY_OF_MONTH), meeting.getDateTime().get(Calendar.MONTH) + 1
+                , meeting.getDateTime().get(Calendar.YEAR), meeting.getDateTime().get(Calendar.HOUR_OF_DAY), meeting.getDateTime().get(Calendar.MINUTE));
+        holder.tvDetails.setText(String.format(Locale.getDefault(), "%s - %s - %s", meeting.getPlace(), details, meeting.getTopic()));
 
         // Construction de la liste des participants à afficher
         StringBuilder sb = new StringBuilder();

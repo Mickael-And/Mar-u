@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/create_meeting_window_padding">
+
+    <TextView
+        android:id="@+id/tv_create_meeting_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/create_meeting_components_margin"
+        android:text="@string/create_meeting_title"
+        android:textSize="@dimen/create_meeting_title_size"
+        app:layout_constraintBottom_toTopOf="@id/meeting_place_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/meeting_place_container"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/create_meeting_components_margin"
+        android:hint="@string/label_meeting_place"
+        app:layout_constraintBottom_toTopOf="@id/meeting_topic_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_create_meeting_title">
+
+        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/spn_meeting_place"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/meeting_topic_container"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/create_meeting_components_margin"
+        android:hint="@string/label_meeting_topic"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+        app:endIconMode="clear_text"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/meeting_date_time_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/meeting_place_container">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/meeting_topic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textCapSentences|textAutoCorrect"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/meeting_date_time_container"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/create_meeting_components_margin"
+        android:hint="@string/label_meeting_date_time"
+        app:endIconCheckable="true"
+        app:endIconDrawable="@drawable/ic_event_gray_24dp"
+        app:endIconMode="custom"
+        app:layout_constraintBottom_toTopOf="@id/meeting_participant_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/meeting_topic_container">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/meeting_date_time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:maxLines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/meeting_participant_container"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/create_meeting_components_margin"
+        android:hint="@string/label_meeting_participant"
+        app:layout_constraintBottom_toTopOf="@id/tv_participants"
+        app:layout_constraintEnd_toStartOf="@id/btn_add_participant"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/meeting_date_time_container">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/meeting_participant"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textWebEmailAddress" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_add_participant"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/create_meeting_components_margin"
+        android:text="@string/buton_label_add_participant"
+        app:layout_constraintBottom_toBottomOf="@id/meeting_participant_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/meeting_participant_container"
+        app:layout_constraintTop_toTopOf="@id/meeting_participant_container" />
+
+    <TextView
+        android:id="@+id/tv_participants"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/create_meeting_components_margin"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="@dimen/create_meeting_components_margin"
+        android:layout_marginBottom="@dimen/create_meeting_components_margin"
+        android:background="@drawable/textview_border"
+        android:ellipsize="end"
+        android:maxLines="6"
+        android:minHeight="@dimen/create_meeting_min_height_textview"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@id/btn_save_meeting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/meeting_participant_container" />
+
+    <Button
+        android:id="@+id/btn_save_meeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/create_meeting_components_margin"
+        android:text="@string/buton_label_save_meeting"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_participants" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

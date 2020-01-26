@@ -4,4 +4,11 @@
     <string name="txt_recyclerview_vide">No meetings</string>
     <string name="reunion_couleur_description">Meeting color</string>
     <string name="garbage_icon_description">Garbage icon</string>
+    <string name="create_meeting_title">Nouvelle réunion:</string>
+    <string name="label_meeting_place">Lieu</string>
+    <string name="label_meeting_topic">Sujet</string>
+    <string name="label_meeting_participant">Participant</string>
+    <string name="buton_label_add_participant">AJOUTER</string>
+    <string name="buton_label_save_meeting">CREER</string>
+    <string name="label_meeting_date_time">Date et heure</string>
 </resources>

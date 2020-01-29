@@ -1,6 +1,7 @@
 package com.example.maru.Service;
 
 import com.example.maru.model.Meeting;
+import com.example.maru.model.Room;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,11 +19,11 @@ public interface IMeetingService {
     List<Meeting> getMeetings();
 
     /**
-     * Récupère une réunion en particulier.
+     * Récupère la liste des salles.
      *
-     * @return id de la réunion que l'on souhaite récupérer
+     * @return {@link List} des salles
      */
-    Meeting getMeeting(UUID id);
+    List<Room> getRooms();
 
     /**
      * Supprimer une réunion.

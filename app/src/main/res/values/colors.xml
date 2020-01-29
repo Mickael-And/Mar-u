@@ -6,6 +6,7 @@
     <color name="colorSecondaryVariant">#950000</color>
     <color name="colorSurface">#FFFFFF</color>
     <color name="colorError">#B00020</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
 
     <color name="color_meeting_1">#80FF5252</color>
     <color name="color_meeting_2">#80E040FB</color>
@@ -17,5 +18,6 @@
     <color name="color_meeting_8">#80FFAB40</color>
     <color name="color_meeting_9">#80FF6E40</color>
     <color name="color_meeting_10">#80FF4081</color>
+
     <color name="textview_stroke">#BF787878</color>
 </resources>

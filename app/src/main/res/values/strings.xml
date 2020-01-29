@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Maréu</string>
-    <string name="action_settings">Settings</string>
+    <string name="date_filter">Date</string>
     <string name="txt_recyclerview_vide">No meetings</string>
     <string name="reunion_couleur_description">Meeting color</string>
     <string name="garbage_icon_description">Garbage icon</string>
@@ -11,4 +11,5 @@
     <string name="buton_label_add_participant">AJOUTER</string>
     <string name="buton_label_save_meeting">CREER</string>
     <string name="label_meeting_date_time">Date et heure</string>
+    <string name="place_filter">Salle</string>
 </resources>

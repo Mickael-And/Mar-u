@@ -23,10 +23,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.maru.DI.DI;
 import com.example.maru.R;
-import com.example.maru.Service.DummyMeetingGenerator;
 import com.example.maru.Service.IMeetingService;
 import com.example.maru.event.AddMeetingEvent;
 import com.example.maru.model.Meeting;
+import com.example.maru.model.Room;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -41,17 +41,6 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.example.maru.Service.DummyMeetingGenerator.ROOM_1;
-import static com.example.maru.Service.DummyMeetingGenerator.ROOM_10;
-import static com.example.maru.Service.DummyMeetingGenerator.ROOM_2;
-import static com.example.maru.Service.DummyMeetingGenerator.ROOM_3;
-import static com.example.maru.Service.DummyMeetingGenerator.ROOM_4;
-import static com.example.maru.Service.DummyMeetingGenerator.ROOM_5;
-import static com.example.maru.Service.DummyMeetingGenerator.ROOM_6;
-import static com.example.maru.Service.DummyMeetingGenerator.ROOM_7;
-import static com.example.maru.Service.DummyMeetingGenerator.ROOM_8;
-import static com.example.maru.Service.DummyMeetingGenerator.ROOM_9;
 
 /**
  * Fragment de création de réunion.
@@ -88,20 +77,24 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
     private List<String> participants = new ArrayList<>();
 
     /**
-     * Couleur de la salle de réunion.
-     */
-    private int meetingColorId = Integer.MIN_VALUE;
-
-    /**
      * Heure et date de la réunion.
      */
     private Calendar meetingDateTime;
+
+    /**
+     * Salle de la réunion.
+     */
+    private Room meetingRoom;
 
     /**
      * Service de gestion des réunions.
      */
     private IMeetingService meetingService = DI.getMeetingService();
 
+    /**
+     * Durée moyenne d'une réunion.
+     */
+    private static final int AVERAGE_MEETING_TIME = 45;
 
     @Nullable
     @Override
@@ -125,7 +118,7 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
      */
     private void initPlaceSpinner() {
         if (getContext() != null) {
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_menu_popup_item, DummyMeetingGenerator.DUMMY_ROOMS);
+            ArrayAdapter adapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_menu_popup_item, this.meetingService.getRooms());
             this.spnMeetingPlace.setAdapter(adapter);
             this.spnMeetingPlace.setOnItemClickListener(this);
             this.spnMeetingPlace.setKeyListener(null);
@@ -223,12 +216,17 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
 
             // Recherche de disponibilité de la salle choisie à l'heure saisie
             for (Meeting meeting : this.meetingService.getMeetings()) {
-                if (meeting.getPlace().contentEquals(this.spnMeetingPlace.getText())) {
+                if (meeting.getRoom().getName().contentEquals(this.spnMeetingPlace.getText())) {
                     Calendar meetingBegin = meeting.getDateTime();
                     Calendar meetingEnd = (Calendar) meeting.getDateTime().clone();
-                    meetingEnd.add(Calendar.MINUTE, 45);
+                    meetingEnd.add(Calendar.MINUTE, AVERAGE_MEETING_TIME);
+                    Calendar meetingDateTimeEnd = (Calendar) this.meetingDateTime.clone();
+                    meetingDateTimeEnd.add(Calendar.MINUTE, AVERAGE_MEETING_TIME);
                     if (this.meetingDateTime.after(meetingBegin) && this.meetingDateTime.before(meetingEnd)) {
                         this.meetingDateTimeContainer.setError(String.format(Locale.getDefault(), "Salle occupée de %02dh%02d à %02dh%02d",
+                                meetingBegin.get(Calendar.HOUR_OF_DAY), meetingBegin.get(Calendar.MINUTE), meetingEnd.get(Calendar.HOUR_OF_DAY), meetingEnd.get(Calendar.MINUTE)));
+                    } else if (meetingDateTimeEnd.after(meetingBegin) && meetingDateTimeEnd.before((meetingEnd))) {
+                        this.meetingDateTimeContainer.setError(String.format(Locale.getDefault(), "Salle occupée de %02dh%02d à %02dh%02d, 45min de réservation",
                                 meetingBegin.get(Calendar.HOUR_OF_DAY), meetingBegin.get(Calendar.MINUTE), meetingEnd.get(Calendar.HOUR_OF_DAY), meetingEnd.get(Calendar.MINUTE)));
                     }
                 }
@@ -263,40 +261,7 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        switch ((String) parent.getItemAtPosition(position)) {
-            case ROOM_1:
-                this.meetingColorId = R.color.color_meeting_1;
-                break;
-            case ROOM_2:
-                this.meetingColorId = R.color.color_meeting_2;
-                break;
-            case ROOM_3:
-                this.meetingColorId = R.color.color_meeting_3;
-                break;
-            case ROOM_4:
-                this.meetingColorId = R.color.color_meeting_4;
-                break;
-            case ROOM_5:
-                this.meetingColorId = R.color.color_meeting_5;
-                break;
-            case ROOM_6:
-                this.meetingColorId = R.color.color_meeting_6;
-                break;
-            case ROOM_7:
-                this.meetingColorId = R.color.color_meeting_7;
-                break;
-            case ROOM_8:
-                this.meetingColorId = R.color.color_meeting_8;
-                break;
-            case ROOM_9:
-                this.meetingColorId = R.color.color_meeting_9;
-                break;
-            case ROOM_10:
-                this.meetingColorId = R.color.color_meeting_10;
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + parent.getItemAtPosition(position));
-        }
+        this.meetingRoom = (Room) parent.getItemAtPosition(position);
 
         // Remise à zéro de la date lors d'un changement de salle si une date a déjà été saisie
         if (!TextUtils.isEmpty(this.edtMeetingDateTime.getText())) {
@@ -325,7 +290,7 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
      */
     @OnClick(R.id.btn_save_meeting)
     public void createMeeting() {
-        if (this.meetingPlaceIsValid() && this.meetingTopicIsValid() && this.meetingDateTimeIsValid() && this.meetingParticipantsIsValid()) {
+        if (this.meetingRoomIsValid() && this.meetingTopicIsValid() && this.meetingDateTimeIsValid() && this.meetingParticipantsIsValid()) {
             sendSaveMeetingNotification();
             Objects.requireNonNull(getActivity()).finish();
             Toast.makeText(getContext(), "Réunion créée", Toast.LENGTH_SHORT).show();
@@ -395,11 +360,11 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
      *
      * @return true si valide
      */
-    private boolean meetingPlaceIsValid() {
+    private boolean meetingRoomIsValid() {
         boolean isValid;
         if (this.meetingPlaceContainer.getError() != null) {
             isValid = false;
-        } else if (this.meetingColorId == Integer.MIN_VALUE) {
+        } else if (this.meetingRoom == null) {
             this.meetingPlaceContainer.setError("Choisir une salle");
             isValid = false;
         } else {
@@ -414,10 +379,9 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
      */
     private void sendSaveMeetingNotification() {
         Meeting meeting = new Meeting();
-        meeting.setColor(this.meetingColorId);
         meeting.setParticipants(this.participants);
         meeting.setDateTime(this.meetingDateTime);
-        meeting.setPlace(String.valueOf(this.spnMeetingPlace.getText()));
+        meeting.setRoom(this.meetingRoom);
         meeting.setTopic(String.valueOf(this.edtMeetingTopic.getText()));
 
         EventBus.getDefault().post(new AddMeetingEvent(meeting));

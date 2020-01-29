@@ -12,6 +12,9 @@ import com.example.maru.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Activité de création d'une réunion.
+ */
 public class CreateMeetingActivity extends AppCompatActivity {
 
     @BindView(R.id.create_meeting_toolbar)

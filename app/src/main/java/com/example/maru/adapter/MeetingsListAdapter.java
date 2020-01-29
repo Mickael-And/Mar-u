@@ -1,6 +1,7 @@
 package com.example.maru.adapter;
 
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +15,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.maru.R;
+import com.example.maru.Service.DummyMeetingGenerator;
 import com.example.maru.event.DeleteMeetingEvent;
 import com.example.maru.model.Meeting;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import lombok.Setter;
 
 /**
  * Adapter de la liste des réunions.
@@ -35,6 +39,12 @@ public class MeetingsListAdapter extends RecyclerView.Adapter<MeetingsListAdapte
      * Liste des réunions à afficher.
      */
     private List<Meeting> meetings;
+
+    /**
+     * Filtre en cours sur la liste des réunions.
+     */
+    @Setter
+    private int currentFilter = DummyMeetingGenerator.DATE;
 
     /**
      * Constructeur.
@@ -57,13 +67,12 @@ public class MeetingsListAdapter extends RecyclerView.Adapter<MeetingsListAdapte
         Meeting meeting = this.meetings.get(position);
         // Affichage de la couleur de la réunion
         Glide.with(holder.imgColor.getContext())
-                .load(new ColorDrawable(holder.imgColor.getContext().getResources().getColor(meeting.getColor())))
+                .load(new ColorDrawable(holder.imgColor.getContext().getResources().getColor(meeting.getRoom().getColor())))
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.imgColor);
         // Affichage du lieu, l'heure et le sujet
-        String details = String.format(Locale.getDefault(), "%02d/%02d/%d %02dh%02d", meeting.getDateTime().get(Calendar.DAY_OF_MONTH), meeting.getDateTime().get(Calendar.MONTH) + 1
-                , meeting.getDateTime().get(Calendar.YEAR), meeting.getDateTime().get(Calendar.HOUR_OF_DAY), meeting.getDateTime().get(Calendar.MINUTE));
-        holder.tvDetails.setText(String.format(Locale.getDefault(), "%s - %s - %s", meeting.getPlace(), details, meeting.getTopic()));
+        String details = String.format(Locale.getDefault(), "%02dh%02d", meeting.getDateTime().get(Calendar.HOUR_OF_DAY), meeting.getDateTime().get(Calendar.MINUTE));
+        holder.tvDetails.setText(String.format(Locale.getDefault(), "%s - %s - %s", meeting.getRoom(), details, meeting.getTopic()));
 
         // Construction de la liste des participants à afficher
         StringBuilder sb = new StringBuilder();
@@ -89,7 +98,19 @@ public class MeetingsListAdapter extends RecyclerView.Adapter<MeetingsListAdapte
      * @param pMeetins liste de réunions à afficher
      */
     public void updateList(List<Meeting> pMeetins) {
-        this.meetings = pMeetins;
+        switch (this.currentFilter) {
+            case DummyMeetingGenerator.DATE:
+                Collections.sort(pMeetins, (o1, o2) -> o1.getDateTime().compareTo(o2.getDateTime()));
+                this.meetings = pMeetins;
+                break;
+            case DummyMeetingGenerator.PLACE:
+                Collections.sort(pMeetins, (o1, o2) -> o1.getDateTime().compareTo(o2.getDateTime()));
+                Collections.sort(pMeetins, (o1, o2) -> o1.getRoom().getNumber() - (o2.getRoom().getNumber()));
+                this.meetings = pMeetins;
+                break;
+            default:
+                Log.i("MeetingsListAdapter", "Filtre inconnue");
+        }
         notifyDataSetChanged();
     }
 

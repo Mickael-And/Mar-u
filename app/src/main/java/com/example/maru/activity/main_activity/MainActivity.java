@@ -2,9 +2,9 @@ package com.example.maru.activity.main_activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,8 +12,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.example.maru.R;
+import com.example.maru.Service.DummyMeetingGenerator;
 import com.example.maru.activity.meeting_activity.CreateMeetingActivity;
+import com.example.maru.event.MeetingFilterEvent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     @BindView(R.id.fab)
     FloatingActionButton fab;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +57,15 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.date_filter:
+                EventBus.getDefault().post(new MeetingFilterEvent(DummyMeetingGenerator.DATE));
+                break;
+            case R.id.place_filter:
+                EventBus.getDefault().post(new MeetingFilterEvent(DummyMeetingGenerator.PLACE));
+                break;
+            default:
+                Log.i("MainActivity", "Filtre inconnue");
         }
 
         return super.onOptionsItemSelected(item);

@@ -17,6 +17,7 @@ import com.example.maru.Service.IMeetingService;
 import com.example.maru.adapter.MeetingsListAdapter;
 import com.example.maru.event.AddMeetingEvent;
 import com.example.maru.event.DeleteMeetingEvent;
+import com.example.maru.event.MeetingFilterEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -29,12 +30,10 @@ import butterknife.ButterKnife;
  */
 public class MeetingFragment extends Fragment {
 
-
     @BindView(R.id.tv_no_meetings)
     TextView tvNoMeetings;
     @BindView(R.id.meetings_list)
     RecyclerView meetingsRecyclerView;
-
 
     /**
      * Service de gestion des réunions.
@@ -96,9 +95,9 @@ public class MeetingFragment extends Fragment {
     }
 
     /**
-     * Déclenché lors de la réception d'un objet de type {@link com.example.maru.event.DeleteMeetingEvent}.
+     * Déclenché lors de la réception d'un objet de type {@link DeleteMeetingEvent}.
      *
-     * @param deleteMeetingEvent évenement de suppression d'une réunion.
+     * @param deleteMeetingEvent évenement de suppression d'une réunion
      */
     @Subscribe
     public void onDeleteMeeting(DeleteMeetingEvent deleteMeetingEvent) {
@@ -108,15 +107,26 @@ public class MeetingFragment extends Fragment {
     }
 
     /**
-     * Déclenché lors de la réception d'un objet de type {@link com.example.maru.event.DeleteMeetingEvent}.
+     * Déclenché lors de la réception d'un objet de type {@link AddMeetingEvent}
      *
-     * @param deleteMeetingEvent évenement de suppression d'une réunion.
+     * @param deleteMeetingEvent évenement d'ajout d'une réunion
      */
     @Subscribe
     public void onAddMeeting(AddMeetingEvent deleteMeetingEvent) {
         this.meetingService.addMeeting(deleteMeetingEvent.meeting);
         this.meetingsListAdapter.updateList(this.meetingService.getMeetings());
         this.checkIfRecyclerViewIsEmpty();
+    }
+
+    /**
+     * Déclenché lors de la réception d'un objet de type {@link MeetingFilterEvent}.
+     *
+     * @param meetingFilterEvent évenment de changement de filtre
+     */
+    @Subscribe
+    public void onChangeMeetingFilter(MeetingFilterEvent meetingFilterEvent) {
+        this.meetingsListAdapter.setCurrentFilter(meetingFilterEvent.filter);
+        this.meetingsListAdapter.updateList(this.meetingService.getMeetings());
     }
 
 }

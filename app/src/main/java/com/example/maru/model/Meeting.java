@@ -28,13 +28,6 @@ public class Meeting {
     private UUID id = UUID.randomUUID();
 
     /**
-     * Couleur de la réunion.
-     */
-    @Getter
-    @Setter
-    private Integer color;
-
-    /**
      * Date et heure de la réunion.
      */
     @Getter
@@ -42,11 +35,11 @@ public class Meeting {
     private Calendar dateTime;
 
     /**
-     * Lieu de la réunion.
+     * Salle de la réunion.
      */
     @Getter
     @Setter
-    private String place;
+    private Room room;
 
     /**
      * Sujet de la réunion.

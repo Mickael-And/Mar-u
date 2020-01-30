@@ -71,8 +71,8 @@ public class MeetingsListAdapter extends RecyclerView.Adapter<MeetingsListAdapte
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.imgColor);
         // Affichage du lieu, l'heure et le sujet
-        String details = String.format(Locale.getDefault(), "%02dh%02d", meeting.getDateTime().get(Calendar.HOUR_OF_DAY), meeting.getDateTime().get(Calendar.MINUTE));
-        holder.tvDetails.setText(String.format(Locale.getDefault(), "%s - %s - %s", meeting.getRoom(), details, meeting.getTopic()));
+        String time = String.format(Locale.getDefault(), "%02dh%02d", meeting.getDateTime().get(Calendar.HOUR_OF_DAY), meeting.getDateTime().get(Calendar.MINUTE));
+        holder.tvDetails.setText(String.format(Locale.getDefault(), "%s - %s - %s", meeting.getRoom(), time, meeting.getTopic()));
 
         // Construction de la liste des participants à afficher
         StringBuilder sb = new StringBuilder();

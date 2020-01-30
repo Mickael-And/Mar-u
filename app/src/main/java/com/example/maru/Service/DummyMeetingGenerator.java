@@ -64,7 +64,7 @@ public abstract class DummyMeetingGenerator {
     }
 
     /**
-     * Liste des salles de réunions.
+     * Liste factice des salles de réunions.
      */
     static List<Room> DUMMY_ROOMS = Arrays.asList(new Room(UUID.randomUUID(), 1, "Salle 1", R.color.color_meeting_1),
             new Room(UUID.randomUUID(), 2, "Salle 2", R.color.color_meeting_2),

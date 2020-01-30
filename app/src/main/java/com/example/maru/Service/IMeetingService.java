@@ -4,7 +4,6 @@ import com.example.maru.model.Meeting;
 import com.example.maru.model.Room;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * API cliente des réunions.

@@ -23,11 +23,9 @@ public class MeetingService implements IMeetingService {
         return this.rooms;
     }
 
-
     @Override
     public void deleteMeeting(Meeting meeting) {
         this.meetings.remove(meeting);
-
     }
 
     @Override

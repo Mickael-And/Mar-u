@@ -45,6 +45,11 @@ public class Room {
     @Setter
     private int color;
 
+    /**
+     * Redéfinition du toString() pour permettre d'afficher le nom de la salle dans le spinner de création d'une réunion.
+     *
+     * @return le nom de la salle
+     */
     @NonNull
     @Override
     public String toString() {

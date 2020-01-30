@@ -214,23 +214,8 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
                 this.meetingDateTimeContainer.setError("Heure de réunion incorrect");
             }
 
-            // Recherche de disponibilité de la salle choisie à l'heure saisie
-            for (Meeting meeting : this.meetingService.getMeetings()) {
-                if (meeting.getRoom().getName().contentEquals(this.spnMeetingPlace.getText())) {
-                    Calendar meetingBegin = meeting.getDateTime();
-                    Calendar meetingEnd = (Calendar) meeting.getDateTime().clone();
-                    meetingEnd.add(Calendar.MINUTE, AVERAGE_MEETING_TIME);
-                    Calendar meetingDateTimeEnd = (Calendar) this.meetingDateTime.clone();
-                    meetingDateTimeEnd.add(Calendar.MINUTE, AVERAGE_MEETING_TIME);
-                    if (this.meetingDateTime.after(meetingBegin) && this.meetingDateTime.before(meetingEnd)) {
-                        this.meetingDateTimeContainer.setError(String.format(Locale.getDefault(), "Salle occupée de %02dh%02d à %02dh%02d",
-                                meetingBegin.get(Calendar.HOUR_OF_DAY), meetingBegin.get(Calendar.MINUTE), meetingEnd.get(Calendar.HOUR_OF_DAY), meetingEnd.get(Calendar.MINUTE)));
-                    } else if (meetingDateTimeEnd.after(meetingBegin) && meetingDateTimeEnd.before((meetingEnd))) {
-                        this.meetingDateTimeContainer.setError(String.format(Locale.getDefault(), "Salle occupée de %02dh%02d à %02dh%02d, 45min de réservation",
-                                meetingBegin.get(Calendar.HOUR_OF_DAY), meetingBegin.get(Calendar.MINUTE), meetingEnd.get(Calendar.HOUR_OF_DAY), meetingEnd.get(Calendar.MINUTE)));
-                    }
-                }
-            }
+            testRoomAvaibility();
+
 
             // Mise en forme de la date pour l'EditText
             this.edtMeetingDateTime.setText(String.format(Locale.getDefault(), "%02d/%02d/%d %02dh%02d", this.meetingDateTime.get(Calendar.DAY_OF_MONTH),
@@ -243,6 +228,29 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
 
         }, this.meetingDateTime.get(Calendar.HOUR_OF_DAY), this.meetingDateTime.get(Calendar.HOUR_OF_DAY), true);
         timePickerDialog.show();
+    }
+
+    /**
+     * Test si une salle est disponible en fonction de la date saisie.
+     */
+    private void testRoomAvaibility() {
+        // Recherche de disponibilité de la salle choisie à l'heure saisie
+        for (Meeting meeting : this.meetingService.getMeetings()) {
+            if (meeting.getRoom().getName().contentEquals(this.spnMeetingPlace.getText())) {
+                Calendar meetingBegin = meeting.getDateTime();
+                Calendar meetingEnd = (Calendar) meeting.getDateTime().clone();
+                meetingEnd.add(Calendar.MINUTE, AVERAGE_MEETING_TIME);
+                Calendar meetingDateTimeEnd = (Calendar) this.meetingDateTime.clone();
+                meetingDateTimeEnd.add(Calendar.MINUTE, AVERAGE_MEETING_TIME);
+                if (this.meetingDateTime.after(meetingBegin) && this.meetingDateTime.before(meetingEnd)) {
+                    this.meetingDateTimeContainer.setError(String.format(Locale.getDefault(), "Salle occupée de %02dh%02d à %02dh%02d",
+                            meetingBegin.get(Calendar.HOUR_OF_DAY), meetingBegin.get(Calendar.MINUTE), meetingEnd.get(Calendar.HOUR_OF_DAY), meetingEnd.get(Calendar.MINUTE)));
+                } else if (meetingDateTimeEnd.after(meetingBegin) && meetingDateTimeEnd.before((meetingEnd))) {
+                    this.meetingDateTimeContainer.setError(String.format(Locale.getDefault(), "Salle occupée de %02dh%02d à %02dh%02d, 45min de réservation",
+                            meetingBegin.get(Calendar.HOUR_OF_DAY), meetingBegin.get(Calendar.MINUTE), meetingEnd.get(Calendar.HOUR_OF_DAY), meetingEnd.get(Calendar.MINUTE)));
+                }
+            }
+        }
     }
 
     /**

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Maréu</string>
     <string name="date_filter">Date</string>
-    <string name="txt_recyclerview_vide">No meetings</string>
+    <string name="txt_empty_meetings_recyclerview">No meetings</string>
     <string name="reunion_couleur_description">Meeting color</string>
     <string name="garbage_icon_description">Garbage icon</string>
     <string name="create_meeting_title">Nouvelle réunion:</string>

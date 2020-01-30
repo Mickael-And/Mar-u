@@ -17,7 +17,7 @@
         android:id="@+id/tv_no_meetings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/txt_recyclerview_vide"
+        android:text="@string/txt_empty_meetings_recyclerview"
         android:textSize="35sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

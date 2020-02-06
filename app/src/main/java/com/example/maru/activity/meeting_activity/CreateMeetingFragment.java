@@ -108,7 +108,7 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        this.initPlaceSpinner();
+        this.initRoomsSpinner();
         // Désactivation du clavier pour le choix de la date
         this.edtMeetingDateTime.setRawInputType(InputType.TYPE_NULL);
     }
@@ -116,7 +116,7 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
     /**
      * Initialisation du spinner permettant le choix de la salle.
      */
-    private void initPlaceSpinner() {
+    private void initRoomsSpinner() {
         if (getContext() != null) {
             ArrayAdapter adapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_menu_popup_item, this.meetingService.getRooms());
             this.spnMeetingPlace.setAdapter(adapter);

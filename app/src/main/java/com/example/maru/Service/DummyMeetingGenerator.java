@@ -59,14 +59,14 @@ public abstract class DummyMeetingGenerator {
      *
      * @return les salles
      */
-    static List<Room> generateRooms() {
+    public static List<Room> generateRooms() {
         return new ArrayList<>(DUMMY_ROOMS);
     }
 
     /**
      * Liste factice des salles de réunions.
      */
-    static List<Room> DUMMY_ROOMS = Arrays.asList(new Room(UUID.randomUUID(), 1, "Salle 1", R.color.color_meeting_1),
+    public static List<Room> DUMMY_ROOMS = Arrays.asList(new Room(UUID.randomUUID(), 1, "Salle 1", R.color.color_meeting_1),
             new Room(UUID.randomUUID(), 2, "Salle 2", R.color.color_meeting_2),
             new Room(UUID.randomUUID(), 3, "Salle 3", R.color.color_meeting_3),
             new Room(UUID.randomUUID(), 4, "Salle 4", R.color.color_meeting_4),
@@ -80,7 +80,7 @@ public abstract class DummyMeetingGenerator {
     /**
      * Liste factice de réunions.
      */
-    static List<Meeting> DUMMY_MEETINGS = Arrays.asList(
+    public static List<Meeting> DUMMY_MEETINGS = Arrays.asList(
 
             new Meeting(UUID.randomUUID(), DUMMY_CALENDARS[0], DUMMY_ROOMS.get(0), "Achats",
                     Arrays.asList("abc@gmail.com", "def@gmail.com", "ghi@gmail.com", "jkl@gmail.com", "mno@gmail.com", "pqr@gmail.com", "stu@gmail.com", "vwx@gmail.com", "yz@gmail.com")),
@@ -108,7 +108,7 @@ public abstract class DummyMeetingGenerator {
      *
      * @return les réunions
      */
-    static List<Meeting> generateMeetings() {
+    public static List<Meeting> generateMeetings() {
         return new ArrayList<>(DUMMY_MEETINGS);
     }
 }

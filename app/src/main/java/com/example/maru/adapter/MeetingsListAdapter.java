@@ -15,12 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.maru.R;
-import com.example.maru.Service.DummyMeetingGenerator;
 import com.example.maru.event.DeleteMeetingEvent;
 import com.example.maru.model.Meeting;
+import com.example.maru.model.Room;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -35,16 +36,24 @@ import lombok.Setter;
  */
 public class MeetingsListAdapter extends RecyclerView.Adapter<MeetingsListAdapter.MeetingViewHolder> {
 
+    // Constantes représentant les filtres disponibles pour l'affichage de la liste.
+    public static final int NO_FILTER = 0;
+    public static final int ROOM_FILTER = 1;
+    public static final int DATE_FILTER = 2;
+
+    @Setter
+    private Calendar startDateFilter;
+    @Setter
+    private Calendar endDateFilter;
+    @Setter
+    private Room roomFilter;
+    @Setter
+    private int currentFilter = NO_FILTER;
+
     /**
      * Liste des réunions à afficher.
      */
     private List<Meeting> meetings;
-
-    /**
-     * Filtre en cours sur la liste des réunions.
-     */
-    @Setter
-    private int currentFilter = DummyMeetingGenerator.DATE;
 
     /**
      * Constructeur.
@@ -98,20 +107,37 @@ public class MeetingsListAdapter extends RecyclerView.Adapter<MeetingsListAdapte
      * @param pMeetins liste de réunions à afficher
      */
     public void updateList(List<Meeting> pMeetins) {
+        Collections.sort(pMeetins, (o1, o2) -> o1.getDateTime().compareTo(o2.getDateTime()));
+        Log.d("MeetingsListAdatper", String.valueOf(this.currentFilter));
         switch (this.currentFilter) {
-            case DummyMeetingGenerator.DATE:
-                Collections.sort(pMeetins, (o1, o2) -> o1.getDateTime().compareTo(o2.getDateTime()));
+            case NO_FILTER:
                 this.meetings = pMeetins;
+                notifyDataSetChanged();
                 break;
-            case DummyMeetingGenerator.PLACE:
-                Collections.sort(pMeetins, (o1, o2) -> o1.getDateTime().compareTo(o2.getDateTime()));
-                Collections.sort(pMeetins, (o1, o2) -> o1.getRoom().getNumber() - (o2.getRoom().getNumber()));
-                this.meetings = pMeetins;
+            case ROOM_FILTER:
+                List<Meeting> meetingsByRoom = new ArrayList<>();
+                for (Meeting meeting : pMeetins) {
+                    if (meeting.getRoom().equals(this.roomFilter)) {
+                        meetingsByRoom.add(meeting);
+                    }
+                }
+                this.meetings = meetingsByRoom;
+                notifyDataSetChanged();
+                break;
+            case DATE_FILTER:
+                List<Meeting> meetingsByDate = new ArrayList<>();
+                for (Meeting meeting : pMeetins) {
+                    if (meeting.getDateTime().after(this.startDateFilter) && meeting.getDateTime().before(this.endDateFilter)) {
+                        meetingsByDate.add(meeting);
+                    }
+                }
+                this.meetings = meetingsByDate;
+                notifyDataSetChanged();
                 break;
             default:
-                Log.i("MeetingsListAdapter", "Filtre inconnue");
+                Log.d("MeetingsListAdapter", "Filtre inconnue");
+                break;
         }
-        notifyDataSetChanged();
     }
 
     /**

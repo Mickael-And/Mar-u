@@ -20,11 +20,13 @@ public class DI {
     }
 
     /**
-     * Récupère une nouvelle instance de @{@link IMeetingService}. Utilisé pour les tests.
+     * Récupère une nouvelle instance de {@link IMeetingService}.
+     * Utilisé pour les tests
      *
      * @return service de gestion des réunions
      */
     public static IMeetingService getNewInstanceMeetingService() {
         return new MeetingService();
     }
+
 }

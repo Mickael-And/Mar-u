@@ -16,8 +16,9 @@ import com.example.maru.R;
 import com.example.maru.Service.IMeetingService;
 import com.example.maru.adapter.MeetingsListAdapter;
 import com.example.maru.event.AddMeetingEvent;
+import com.example.maru.event.DateFilterEvent;
 import com.example.maru.event.DeleteMeetingEvent;
-import com.example.maru.event.MeetingFilterEvent;
+import com.example.maru.event.RoomFilterEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -61,8 +62,8 @@ public class MeetingFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         this.initList();
         this.checkIfRecyclerViewIsEmpty();
     }
@@ -119,14 +120,30 @@ public class MeetingFragment extends Fragment {
     }
 
     /**
-     * Déclenché lors de la réception d'un objet de type {@link MeetingFilterEvent}.
+     * Déclenché lors de la réception d'un objet de type {@link RoomFilterEvent}.
      *
-     * @param meetingFilterEvent évenment de changement de filtre
+     * @param roomFilterEvent évenment de changement de filtre par salle
      */
     @Subscribe
-    public void onChangeMeetingFilter(MeetingFilterEvent meetingFilterEvent) {
-        this.meetingsListAdapter.setCurrentFilter(meetingFilterEvent.filter);
+    public void onRoomFilter(RoomFilterEvent roomFilterEvent) {
+        this.meetingsListAdapter.setCurrentFilter(MeetingsListAdapter.ROOM_FILTER);
+        this.meetingsListAdapter.setRoomFilter(roomFilterEvent.choosenRoom);
         this.meetingsListAdapter.updateList(this.meetingService.getMeetings());
+        this.checkIfRecyclerViewIsEmpty();
+    }
+
+    /**
+     * Déclenché lors de la réception d'un objet de type {@link DateFilterEvent}
+     *
+     * @param dateFilterEvent évenment de changement de filtre par date
+     */
+    @Subscribe
+    public void onDateFilter(DateFilterEvent dateFilterEvent) {
+        this.meetingsListAdapter.setCurrentFilter(MeetingsListAdapter.DATE_FILTER);
+        this.meetingsListAdapter.setStartDateFilter(dateFilterEvent.startDateFilter);
+        this.meetingsListAdapter.setEndDateFilter(dateFilterEvent.endDateFilter);
+        this.meetingsListAdapter.updateList(this.meetingService.getMeetings());
+        this.checkIfRecyclerViewIsEmpty();
     }
 
 }

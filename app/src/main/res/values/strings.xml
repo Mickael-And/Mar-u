@@ -12,4 +12,5 @@
     <string name="buton_label_save_meeting">CREER</string>
     <string name="label_meeting_date_time">Date et heure</string>
     <string name="place_filter">Salle</string>
+    <string name="date_filter_title">Filtrer par date</string>
 </resources>

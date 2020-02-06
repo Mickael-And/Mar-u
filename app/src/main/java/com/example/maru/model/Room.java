@@ -15,7 +15,7 @@ import lombok.Setter;
  */
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(of = {"name"})
 public class Room {
 
     /**

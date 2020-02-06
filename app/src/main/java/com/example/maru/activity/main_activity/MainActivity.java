@@ -10,14 +10,13 @@ import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.maru.R;
-import com.example.maru.Service.DummyMeetingGenerator;
+import com.example.maru.activity.dialog_fragment.DateFilterDialogFragment;
+import com.example.maru.activity.dialog_fragment.RoomFilterDialogFragment;
 import com.example.maru.activity.meeting_activity.CreateMeetingActivity;
-import com.example.maru.event.MeetingFilterEvent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,10 +59,14 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.date_filter:
-                EventBus.getDefault().post(new MeetingFilterEvent(DummyMeetingGenerator.DATE));
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                DateFilterDialogFragment dateFilterDialogFragment = DateFilterDialogFragment.newInstance();
+                dateFilterDialogFragment.show(fragmentManager, "dialog_fragment_date_filter");
                 break;
             case R.id.place_filter:
-                EventBus.getDefault().post(new MeetingFilterEvent(DummyMeetingGenerator.PLACE));
+                fragmentManager = getSupportFragmentManager();
+                RoomFilterDialogFragment roomFilterDialogFragment = RoomFilterDialogFragment.newInstance();
+                roomFilterDialogFragment.show(fragmentManager, "dialog_fragment_room_filter");
                 break;
             default:
                 Log.i("MainActivity", "Filtre inconnue");

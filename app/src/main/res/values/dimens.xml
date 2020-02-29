@@ -5,5 +5,17 @@
     <dimen name="create_meeting_components_margin">5dp</dimen>
     <dimen name="create_meeting_min_height_textview">53dp</dimen>
     <dimen name="date_filter_title_size">26sp</dimen>
+    <dimen name="padding_bottom_recyclerview_for_fab">70dp</dimen>
+    <dimen name="item_padding">20dp</dimen>
+    <dimen name="width_item_color">50dp</dimen>
+    <dimen name="height_item_color">50dp</dimen>
+    <dimen name="item_text_margin">10dp</dimen>
+    <dimen name="item_text_details_size">20sp</dimen>
+    <dimen name="item_text_participants_size">15sp</dimen>
+    <dimen name="room_filter_padding">20dp</dimen>
+    <dimen name="margin_components_room_filter">5dp</dimen>
+    <dimen name="room_filter_title_size">26sp</dimen>
+    <dimen name="date_filter_padding">20dp</dimen>
+    <dimen name="date_filter_components_margin">5dp</dimen>
 
 </resources>

@@ -13,4 +13,12 @@
     <string name="label_meeting_date_time">Date et heure</string>
     <string name="place_filter">Salle</string>
     <string name="date_filter_title">Filtrer par date</string>
+    <string name="room_filter_title">Filtrer par salle</string>
+    <string name="label_room_filter_selector">Lieu</string>
+    <string name="text_btn_ok_room_filter">OK</string>
+    <string name="text_btn_cancel_room_filter">ANNULER</string>
+    <string name="label_start_date_filter_selector">Date de début</string>
+    <string name="label_end_date_filter_selector">Date de fin</string>
+    <string name="text_btn_ok_date_filter">OK</string>
+    <string name="text_btn_cancel_date_filter">ANNULER</string>
 </resources>

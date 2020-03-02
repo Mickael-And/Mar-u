@@ -21,4 +21,5 @@
     <string name="label_end_date_filter_selector">Date de fin</string>
     <string name="text_btn_ok_date_filter">OK</string>
     <string name="text_btn_cancel_date_filter">ANNULER</string>
+    <string name="default_filter">Défaut</string>
 </resources>

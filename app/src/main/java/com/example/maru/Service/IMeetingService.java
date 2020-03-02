@@ -3,6 +3,7 @@ package com.example.maru.Service;
 import com.example.maru.model.Meeting;
 import com.example.maru.model.Room;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -37,4 +38,22 @@ public interface IMeetingService {
      * @param meeting réunion que l'on souhaite ajouter
      */
     void addMeeting(Meeting meeting);
+
+    /**
+     * Permet de trier les réunions pas dates.
+     *
+     * @param startDate date de début du filtre
+     * @param endDate   date de fin du filtre
+     * @return la liste triée par date
+     */
+    List<Meeting> sortByDate(Calendar startDate, Calendar endDate);
+
+    /**
+     * Permet de trier les réunions par salle.
+     *
+     * @param roomFilter salle à trier
+     * @return la liste triée par salle
+     */
+    List<Meeting> sortByRoom(Room roomFilter);
+
 }

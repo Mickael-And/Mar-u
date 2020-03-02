@@ -79,6 +79,7 @@ public class MainActivityInstrumentedTest {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         onView(withText("Date")).check(matches(isDisplayed()));
         onView(withText("Salle")).check(matches(isDisplayed()));
+        onView(withText("Défaut")).check(matches(isDisplayed()));
     }
 
     /**
@@ -242,6 +243,7 @@ public class MainActivityInstrumentedTest {
         onView(withId(R.id.btn_room_filter_ok)).perform(click());
         onView(withId(R.id.meetings_list)).check(new RecyclerViewUtils.ItemCount(1));
         onView(withId(R.id.meetings_list)).check((matches(atPosition(0, hasDescendant(withText("Salle 1 - 01h00 - blabla1"))))));
-
     }
+
+    // TODO: Ajouter filtre par défaut
 }

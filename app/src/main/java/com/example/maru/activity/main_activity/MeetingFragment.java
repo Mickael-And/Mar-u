@@ -17,6 +17,7 @@ import com.example.maru.Service.IMeetingService;
 import com.example.maru.adapter.MeetingsListAdapter;
 import com.example.maru.event.AddMeetingEvent;
 import com.example.maru.event.DateFilterEvent;
+import com.example.maru.event.DefaultFilterEvent;
 import com.example.maru.event.DeleteMeetingEvent;
 import com.example.maru.event.RoomFilterEvent;
 
@@ -126,9 +127,7 @@ public class MeetingFragment extends Fragment {
      */
     @Subscribe
     public void onRoomFilter(RoomFilterEvent roomFilterEvent) {
-        this.meetingsListAdapter.setCurrentFilter(MeetingsListAdapter.ROOM_FILTER);
-        this.meetingsListAdapter.setRoomFilter(roomFilterEvent.choosenRoom);
-        this.meetingsListAdapter.updateList(this.meetingService.getMeetings());
+        this.meetingsListAdapter.updateList(this.meetingService.sortByRoom(roomFilterEvent.choosenRoom));
         this.checkIfRecyclerViewIsEmpty();
     }
 
@@ -139,9 +138,15 @@ public class MeetingFragment extends Fragment {
      */
     @Subscribe
     public void onDateFilter(DateFilterEvent dateFilterEvent) {
-        this.meetingsListAdapter.setCurrentFilter(MeetingsListAdapter.DATE_FILTER);
-        this.meetingsListAdapter.setStartDateFilter(dateFilterEvent.startDateFilter);
-        this.meetingsListAdapter.setEndDateFilter(dateFilterEvent.endDateFilter);
+        this.meetingsListAdapter.updateList(this.meetingService.sortByDate(dateFilterEvent.startDateFilter, dateFilterEvent.endDateFilter));
+        this.checkIfRecyclerViewIsEmpty();
+    }
+
+    /**
+     * Déclenché lors d'une demande de suppression des filtres.
+     */
+    @Subscribe
+    public void onDefaultFilter(DefaultFilterEvent defaultFilterEvent) {
         this.meetingsListAdapter.updateList(this.meetingService.getMeetings());
         this.checkIfRecyclerViewIsEmpty();
     }

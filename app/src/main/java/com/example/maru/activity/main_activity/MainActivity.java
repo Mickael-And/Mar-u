@@ -16,7 +16,10 @@ import com.example.maru.R;
 import com.example.maru.activity.dialog_fragment.DateFilterDialogFragment;
 import com.example.maru.activity.dialog_fragment.RoomFilterDialogFragment;
 import com.example.maru.activity.meeting_activity.CreateMeetingActivity;
+import com.example.maru.event.DefaultFilterEvent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
                 fragmentManager = getSupportFragmentManager();
                 RoomFilterDialogFragment roomFilterDialogFragment = RoomFilterDialogFragment.newInstance();
                 roomFilterDialogFragment.show(fragmentManager, "dialog_fragment_room_filter");
+                break;
+            case R.id.default_filter:
+                EventBus.getDefault().post(new DefaultFilterEvent());
                 break;
             default:
                 Log.i("MainActivity", "Filtre inconnue");

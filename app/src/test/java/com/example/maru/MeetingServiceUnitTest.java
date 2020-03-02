@@ -59,4 +59,6 @@ public class MeetingServiceUnitTest {
         assertEquals(sizeList + 1, this.meetingService.getMeetings().size());
     }
 
+    // TODO: Ajouter les filtres
+
 }

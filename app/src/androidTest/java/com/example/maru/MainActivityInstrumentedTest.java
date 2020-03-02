@@ -40,7 +40,6 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 import static com.example.maru.utils.RecyclerViewUtils.atPosition;
 import static com.example.maru.utils.RecyclerViewUtils.clickChildView;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 
 /**
@@ -75,7 +74,7 @@ public class MainActivityInstrumentedTest {
      * Test si le menu contient les 2 items de filtre par date ou salle.
      */
     @Test
-    public void overflowMenuContainTwoItems() {
+    public void overflowMenuContainThreeItems() {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         onView(withText("Date")).check(matches(isDisplayed()));
         onView(withText("Salle")).check(matches(isDisplayed()));
@@ -91,20 +90,10 @@ public class MainActivityInstrumentedTest {
     }
 
     /**
-     * Test si une réunion est bien supprimée lors d'un clic sur le bouton de suppression.
-     */
-    @Test
-    public void removeAMeeting() {
-        onView(withId(R.id.meetings_list)).perform(actionOnItemAtPosition(0, clickChildView(R.id.btn_item_list_delete)));
-        onView(withId(R.id.meetings_list)).check(new RecyclerViewUtils.ItemCount(listSize - 1));
-    }
-
-    /**
      * Vérifie que le message indiquant une liste vide est bien affiché.
      */
     @Test
     public void noMeetingsMessageIsOk() {
-        onView(withId(R.id.tv_no_meetings)).check(matches(not(isDisplayed())));
         for (int i = 0; i < listSize; i++) {
             onView(withId(R.id.meetings_list)).perform(actionOnItemAtPosition(0, clickChildView(R.id.btn_item_list_delete)));
         }
@@ -116,7 +105,7 @@ public class MainActivityInstrumentedTest {
      * Test si la création d'une réunion ajoute bien une réunion dans la liste.
      */
     @Test
-    public void addAMeeting() {
+    public void addAndRemoveAMeeting() {
         // Taille initiale de la liste
         onView(withId(R.id.meetings_list)).check(new RecyclerViewUtils.ItemCount(listSize));
         // Lancement de l'activité de création de réunion
@@ -140,6 +129,10 @@ public class MainActivityInstrumentedTest {
         onView(withId(R.id.btn_save_meeting)).perform(click());
         // Taille de la liste +1 ?
         onView(withId(R.id.meetings_list)).check(new RecyclerViewUtils.ItemCount(listSize + 1));
+
+        // Remove meeting
+        onView(withId(R.id.meetings_list)).perform(actionOnItemAtPosition(0, clickChildView(R.id.btn_item_list_delete)));
+        onView(withId(R.id.meetings_list)).check(new RecyclerViewUtils.ItemCount(listSize));
     }
 
     /**
@@ -200,7 +193,7 @@ public class MainActivityInstrumentedTest {
      * Test du filtre par Salle.
      */
     @Test
-    public void meetingsFilteredByRoom() {
+    public void meetingsFilteredByRoomAndBackToDefaultFilter() {
         // Suppression, si il y a, des réunions dans la liste
         if (this.listSize != 0) {
             for (int i = 0; i < listSize; i++) {
@@ -243,7 +236,12 @@ public class MainActivityInstrumentedTest {
         onView(withId(R.id.btn_room_filter_ok)).perform(click());
         onView(withId(R.id.meetings_list)).check(new RecyclerViewUtils.ItemCount(1));
         onView(withId(R.id.meetings_list)).check((matches(atPosition(0, hasDescendant(withText("Salle 1 - 01h00 - blabla1"))))));
-    }
 
-    // TODO: Ajouter filtre par défaut
+        // Ouverture de la boîte de dialogue pour le filtre par défaut
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        onView(withText("Défaut")).perform(click());
+
+        // Vérification du retour à la liste de départ
+        onView(withId(R.id.meetings_list)).check(new RecyclerViewUtils.ItemCount(4));
+    }
 }

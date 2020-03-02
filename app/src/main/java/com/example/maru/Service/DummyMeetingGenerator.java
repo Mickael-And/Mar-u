@@ -15,10 +15,6 @@ import java.util.UUID;
  */
 public abstract class DummyMeetingGenerator {
 
-    // Constantes représentants le filtre appliqué sur la liste des réunions
-    public static final int DATE = 0;
-    public static final int PLACE = 1;
-
     /**
      * Liste factice de calendars.
      */

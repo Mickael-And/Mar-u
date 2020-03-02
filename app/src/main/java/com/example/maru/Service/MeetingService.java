@@ -5,7 +5,6 @@ import com.example.maru.model.Room;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,7 +12,7 @@ import java.util.List;
  */
 public class MeetingService implements IMeetingService {
 
-    private List<Meeting> meetings = DummyMeetingGenerator.generateMeetings();
+    private List<Meeting> meetings = new ArrayList<>();
     private List<Room> rooms = DummyMeetingGenerator.generateRooms();
 
     @Override

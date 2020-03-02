@@ -9,6 +9,8 @@ import com.example.maru.model.Room;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
@@ -32,8 +34,19 @@ public class MeetingServiceUnitTest {
 
     @Test
     public void getMeetingsWithSuccess() {
+        List<Meeting> expectedMeetings = new ArrayList<>();
+        Meeting meeting1 = new Meeting();
+        Meeting meeting2 = new Meeting();
+        Meeting meeting3 = new Meeting();
+        expectedMeetings.add(meeting1);
+        expectedMeetings.add(meeting2);
+        expectedMeetings.add(meeting3);
+
+        this.meetingService.addMeeting(meeting1);
+        this.meetingService.addMeeting(meeting2);
+        this.meetingService.addMeeting(meeting3);
+
         List<Meeting> meetings = this.meetingService.getMeetings();
-        List<Meeting> expectedMeetings = DummyMeetingGenerator.DUMMY_MEETINGS;
         assertThat(meetings, containsInAnyOrder(expectedMeetings.toArray()));
     }
 
@@ -59,6 +72,38 @@ public class MeetingServiceUnitTest {
         assertEquals(sizeList + 1, this.meetingService.getMeetings().size());
     }
 
-    // TODO: Ajouter les filtres
+    @Test
+    public void sortByDate() {
+        for (Meeting meeting : DummyMeetingGenerator.generateMeetings()) {
+            this.meetingService.addMeeting(meeting);
+        }
 
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(2019, Calendar.DECEMBER, 28, 12, 30);
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(2019, Calendar.DECEMBER, 28, 15, 30);
+
+        List<Meeting> sortedList = this.meetingService.sortByDate(startDate, endDate);
+        assertEquals(3, sortedList.size());
+
+        List<Meeting> expectedList = new ArrayList<>();
+        expectedList.add(DummyMeetingGenerator.DUMMY_MEETINGS.get(1));
+        expectedList.add(DummyMeetingGenerator.DUMMY_MEETINGS.get(2));
+        expectedList.add(DummyMeetingGenerator.DUMMY_MEETINGS.get(3));
+        assertThat(sortedList, containsInAnyOrder(expectedList.toArray()));
+    }
+
+    @Test
+    public void sortByRoom() {
+        for (Meeting meeting : DummyMeetingGenerator.generateMeetings()) {
+            this.meetingService.addMeeting(meeting);
+        }
+        List<Meeting> sortedList = this.meetingService.sortByRoom(DummyMeetingGenerator.DUMMY_ROOMS.get(4));
+        assertEquals(1, sortedList.size());
+
+        List<Meeting> expectedList = new ArrayList<>();
+        expectedList.add(DummyMeetingGenerator.DUMMY_MEETINGS.get(4));
+
+        assertThat(sortedList, containsInAnyOrder(expectedList.toArray()));
+    }
 }

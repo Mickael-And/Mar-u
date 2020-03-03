@@ -17,5 +17,6 @@
     <dimen name="room_filter_title_size">26sp</dimen>
     <dimen name="date_filter_padding">20dp</dimen>
     <dimen name="date_filter_components_margin">5dp</dimen>
+    <dimen name="margin_start_btn_add_participant">10dp</dimen>
 
 </resources>
